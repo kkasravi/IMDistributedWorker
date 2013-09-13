@@ -91,17 +91,16 @@ class Master(workTimeout: FiniteDuration) extends Actor with ActorLogging {
           }
       }
 
-    case ServiceIsComplete(workerId, workId, result) =>
-      workers.get(workerId) match {
+    case ServiceIsComplete(workerId, serviceId, result) =>
+      workers.get(serviceId) match {
         case _ =>
-          log.info(s"Master State:ServiceIsComplete workId=$workId workerId=$workerId");
-          if (serviceProgress.contains(workId)) {
-            log.info(s"MasterWorkerProtocol.Ack $workId!!!");
-            sender ! MasterWorkerProtocol.Ack(workId)
-            val count:Integer = serviceProgress.get(workId).get + 1
-            serviceProgress += (workId -> count)
-            if (serviceProgress.get(workId).get >= workers.size) {
-              log.info(s"Master All Workers done!!! workId=$workId");
+          log.info(s"Master State:ServiceIsComplete serviceId=$serviceId workerId=$workerId");
+          if (serviceProgress.contains(serviceId)) {
+            sender ! MasterWorkerProtocol.Ack(serviceId)
+            val count:Integer = serviceProgress.get(serviceId).get + 1
+            serviceProgress += (serviceId -> count)
+            if (serviceProgress.get(serviceId).get >= workers.size) {
+              log.info(s"Master All Workers done!!! serviceId=$serviceId");
             }
           }
       }
