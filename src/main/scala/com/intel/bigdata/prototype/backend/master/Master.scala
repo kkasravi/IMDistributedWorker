@@ -40,6 +40,7 @@ class Master(workTimeout: FiniteDuration) extends Actor with ActorLogging {
   mediator ! Put(self)
 
   private var workers = Map[String, WorkerState]()
+  private var serviceProgress = Map[String, Integer]()
   private var pendingWork = Queue[Work]()
   private var workIds = Set[String]()
 
@@ -76,7 +77,6 @@ class Master(workTimeout: FiniteDuration) extends Actor with ActorLogging {
       }
 
     case WorkIsDone(workerId, workId, result) =>
-      log.info("Master WorkIsDone!!!");
       workers.get(workerId) match {
         case Some(s @ WorkerState(_, Busy(work, _))) if work.workId == workId =>
           log.info("Work is done: {} => {} by worker {}", work, result, workerId)
@@ -88,6 +88,21 @@ class Master(workTimeout: FiniteDuration) extends Actor with ActorLogging {
           if (workIds.contains(workId)) {
             // previous Ack was lost, confirm again that this is done
             sender ! MasterWorkerProtocol.Ack(workId)
+          }
+      }
+
+    case ServiceIsComplete(workerId, workId, result) =>
+      workers.get(workerId) match {
+        case _ =>
+          log.info(s"Master State:ServiceIsComplete workId=$workId workerId=$workerId");
+          if (serviceProgress.contains(workId)) {
+            log.info(s"MasterWorkerProtocol.Ack $workId!!!");
+            sender ! MasterWorkerProtocol.Ack(workId)
+            val count:Integer = serviceProgress.get(workId).get + 1
+            serviceProgress += (workId -> count)
+            if (serviceProgress.get(workId).get >= workers.size) {
+              log.info(s"Master All Workers done!!! workId=$workId");
+            }
           }
       }
 
@@ -116,10 +131,10 @@ class Master(workTimeout: FiniteDuration) extends Actor with ActorLogging {
       }
 
     case service: Service =>
-      log.info("Publishing service!!!");
       mediator ! DistributedPubSubMediator.Publish(ServiceTopic, Service(service.id,service.command))
-      SendToAll("/user/worker", Service(service.id,service.command))
       sender ! Master.Ack(service.id)
+      serviceProgress += (service.id -> 0)
+      workIds += service.id
 
     case CleanupTick =>
       for ((workerId, s @ WorkerState(_, Busy(work, timeout))) <- workers) {

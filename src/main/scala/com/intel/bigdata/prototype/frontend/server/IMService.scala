@@ -79,7 +79,7 @@ class IMService(router: ActorRef) extends Actor with SprayActorLogging {
       val future = router ? service
       future onSuccess {
 	     case Router.Ok => {
-	        val msg = "service completed " + service.id
+	        val msg = "service launched " + service.id
 	        imRequestSender ! HttpResponse(entity = msg)
 	     } 
 	     case Router.NotOk => {

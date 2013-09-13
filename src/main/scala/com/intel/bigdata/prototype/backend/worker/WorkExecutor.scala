@@ -11,10 +11,9 @@ class WorkExecutor extends Actor with ActorLogging {
       sender ! Worker.WorkComplete(result)
 
     case service: Service => 
-      log.info("WorkExecutor service!!!")
       val id = service.id
       val result = s"Finished service $id"
-      sender ! Worker.WorkComplete(result)
+      sender ! Worker.ServiceComplete(result)
   }
 
 }

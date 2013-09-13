@@ -23,7 +23,6 @@ class Router extends Actor with ActorLogging {
       implicit val timeout = Timeout(5.seconds)
       (mediator ? Send("/user/master/active", work, localAffinity = false)) map {
         case Master.Ack(_) => 
-          log.info("Got Master Ack!!!! workId="+work.workId)
           Ok
       } recover { 
         case _ => NotOk 
@@ -33,7 +32,6 @@ class Router extends Actor with ActorLogging {
       implicit val timeout = Timeout(5.seconds)
       (mediator ? Send("/user/master/active", service, localAffinity = false)) map {
         case Master.Ack(_) => 
-          log.info("Got Master Ack!!!! serviceId="+service.id)
           Ok
       } recover { 
         case _ => NotOk 
