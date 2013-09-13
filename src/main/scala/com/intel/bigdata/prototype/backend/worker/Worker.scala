@@ -24,6 +24,7 @@ object Worker {
     Props(classOf[Worker], clusterClient, workExecutorProps, registerInterval)
 
   case class WorkComplete(result: Any)
+  case class ServiceComplete(result: Any)
 }
 
 class Worker(clusterClient: ActorRef, workExecutorProps: Props, registerInterval: FiniteDuration)
@@ -71,10 +72,10 @@ class Worker(clusterClient: ActorRef, workExecutorProps: Props, registerInterval
       workExecutor ! job
       context.become(working)
 
-    case Service(id, command) =>
-      log.info("Got service: {}", command)
-      currentWorkId = Some(id)
-      workExecutor ! command
+    case service: Service =>
+      log.info("Got service: {}", service)
+      currentWorkId = Some(service.id)
+      workExecutor ! service
       context.become(working)
 
     case _: SubscribeAck =>
@@ -84,6 +85,12 @@ class Worker(clusterClient: ActorRef, workExecutorProps: Props, registerInterval
   def working: Receive = {
     case WorkComplete(result) =>
       log.info("Work is complete. Result {}.", result)
+      sendToMaster(WorkIsDone(workerId, workId, result))
+      context.setReceiveTimeout(5.seconds)
+      context.become(waitForWorkIsDoneAck(result))
+
+    case ServiceComplete(result) =>
+      log.info("Service is complete. Result {}.", result)
       sendToMaster(WorkIsDone(workerId, workId, result))
       context.setReceiveTimeout(5.seconds)
       context.become(waitForWorkIsDoneAck(result))

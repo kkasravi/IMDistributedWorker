@@ -76,6 +76,7 @@ class Master(workTimeout: FiniteDuration) extends Actor with ActorLogging {
       }
 
     case WorkIsDone(workerId, workId, result) =>
+      log.info("Master WorkIsDone!!!");
       workers.get(workerId) match {
         case Some(s @ WorkerState(_, Busy(work, _))) if work.workId == workId =>
           log.info("Work is done: {} => {} by worker {}", work, result, workerId)
