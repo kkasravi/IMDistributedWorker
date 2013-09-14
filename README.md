@@ -8,8 +8,12 @@ Based on [DistributedWorkers](http://typesafe.com/activator/template/akka-distri
 How to build the project:
 * sbt clean assembly
 
-How to run the project:
+How to run a local test (agents are run locally):
 
-1. Bring up several terminal windows
-1. In terminal (1) java -cp target/scala-2.10/im-distributed-workers-assembly-0.1.jar com.intel.bigdata.prototype.frontend.server.IMServer
-1. In terminal (2...n) java -cp  target/scala-2.10/im-distributed-workers-assembly-0.1.jar com.intel.bigdata.prototype.backend.worker.Main
+1. run_test.sh
+Usage: ./run_test.sh num
+num: number of agents
+1. run_test.sh 4
+<pre>
+{ "service": { "id": "06f5ab67-0d20-4958-8745-9f277d2fdcf6", "timesPerWorker": [38, 44, 53, 54], "completionTime": 54}}
+</pre>

@@ -41,7 +41,6 @@ class Router extends Actor with ActorLogging {
       implicit val timeout = Timeout(5.seconds)
       (mediator ? Send("/user/master/active", serviceInfo, localAffinity = false)) map {
         case serviceTimes: ServiceTimes => 
-          log.info("Router ServiceTimes!!!!")
           serviceTimes
       } pipeTo sender
   }

@@ -4,5 +4,5 @@ case class Service(id: String, command: Any, startTime:Long = System.currentTime
 
 case class ServiceInfo(service: Service)
 
-case class ServiceTimes(service: Service, times: Seq[Long] = Seq[Long]())
+case class ServiceTimes(service: Service, timesPerWorker: Seq[Long] = Seq[Long](), completionTime: Long = 0)
 

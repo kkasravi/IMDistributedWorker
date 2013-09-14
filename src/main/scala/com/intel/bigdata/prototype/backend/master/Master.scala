@@ -98,19 +98,19 @@ class Master(workTimeout: FiniteDuration) extends Actor with ActorLogging {
           if (serviceProgress.contains(serviceId)) {
             val service = serviceProgress.get(serviceId).get.service
             val delta = System.currentTimeMillis() - service.startTime
-            val times = serviceProgress.get(serviceId).get.times :+ delta
-            serviceProgress += (serviceId -> ServiceTimes(service,times))
+            val timesPerWorker = serviceProgress.get(serviceId).get.timesPerWorker :+ delta
+            if (timesPerWorker.length >= workers.size) {
+              serviceProgress += (serviceId -> ServiceTimes(service,timesPerWorker,delta))
+            } else {
+              serviceProgress += (serviceId -> ServiceTimes(service,timesPerWorker))
+            }
             sender ! MasterWorkerProtocol.Ack(serviceId)
           }
       }
 
     case serviceInfo: ServiceInfo =>
-      log.info("Master serviceInfo call");
       val serviceTimes:ServiceTimes = serviceProgress.get(serviceInfo.service.id).get
       sender ! serviceTimes
-//      if (serviceProgress.get(serviceInfo.service.id).get().times.length >= workers.size) {
-//        sender ! ServiceTimes(serviceInfo.service,Seq[Long](0))
-//      }
 
     case WorkFailed(workerId, workId) =>
       workers.get(workerId) match {
@@ -157,10 +157,8 @@ class Master(workTimeout: FiniteDuration) extends Actor with ActorLogging {
   def notifyWorkers(): Unit =
     if (pendingWork.nonEmpty) {
       // could pick a few random instead of all
-      log.info("Master notifyWorkers!!!");
       workers.foreach {
         case (_, WorkerState(ref, Idle)) => 
-          log.info("Master notifyWorkers!!!");
           ref ! WorkIsReady
         case _                           => // busy
       }

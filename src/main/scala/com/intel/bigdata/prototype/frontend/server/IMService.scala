@@ -9,6 +9,8 @@ import spray.util._
 import spray.http._
 import spray.http.HttpMethods._
 import spray.http.MediaTypes._
+import spray.json._
+import DefaultJsonProtocol._
 import akka.util.Timeout.durationToTimeout
 import spray.http.ContentType.apply
 import spray.http.HttpEntity.apply
@@ -37,24 +39,23 @@ class IMService(router: ActorRef) extends Actor with SprayActorLogging {
     case HttpRequest(GET, Uri.Path("/"), _, _, _) =>
       sender ! index
 
-    case HttpRequest(GET, Uri.Path("/stopIM"), _, _, _) =>
-      sender ! HttpResponse(entity = "Shutting down in 1 second ...")
-      context.system.scheduler.scheduleOnce(1.second) { context.system.shutdown() }
-      
-    case HttpRequest(GET, Uri.Path(path), _, _, _) if path startsWith "/start"  => 
-      processAgentServiceRequest(path, "start")
+    case httpRequest: HttpRequest =>
+      httpRequest.uri.path.toString match {
+        case "/start" =>
+          processAgentServiceRequest(httpRequest.uri.path.toString, "start")
+        case "/stopIM" =>
+          processAgentServiceRequest(httpRequest.uri.path.toString, "stop")
+        case "/status" =>
+          processAgentServiceRequest(httpRequest.uri.path.toString, "status")
+        case "/config" =>
+          processAgentServiceRequest(httpRequest.uri.path.toString, "config")
+        case "/info" =>
+          httpRequest.uri.query.get("service").map(
+            processAgentServiceInfo(_)
+          )
+        case _ => sender ! HttpResponse(status = 404, entity = "Unknown resource!")
+      }
 
-    case HttpRequest(GET, Uri.Path(path), _, _, _) if path startsWith "/stop"  => 
-      processAgentRequest(path, "stop")
-
-    case HttpRequest(GET, Uri.Path(path), _, _, _) if path startsWith "/status"  => 
-      processAgentRequest(path, "status")
-
-    case HttpRequest(GET, Uri.Path(path), _, _, _) if path startsWith "/config"  => 
-      processAgentRequest(path, "config")
-
-      
-    case _: HttpRequest => sender ! HttpResponse(status = 404, entity = "Unknown resource!")
   }
 
   def processAgentRequest(path: String, action: String) = {     
@@ -79,23 +80,26 @@ class IMService(router: ActorRef) extends Actor with SprayActorLogging {
       val future = router ? service
       future onSuccess {
 	     case Router.Ok => {
-	        val msg = "service launched " + service.id
-                val info = router ? ServiceInfo(service)
-                info onSuccess {
-                  case serviceTimes: ServiceTimes =>
-                    log.info("IMService got ServiceTimes!!!!")
-	            imRequestSender ! HttpResponse(entity = msg)
-                  case _ =>
-                    log.info("IMService got response!!!!")
-                }
+	        val msg = """{ "service": { "id": """"+service.id+"""", "status": "success"}}"""
+                imRequestSender ! HttpResponse(entity = msg.toJson.prettyPrint)
 	     } 
 	     case Router.NotOk => {
-	        val msg = "service failed " + service.id
+	        val msg = """{ "service": { "id": """"+service.id+"""", "status": "failure"}}"""
 	        imRequestSender ! HttpResponse(entity = msg)
 	     }
       }
     }
  
+  def processAgentServiceInfo(serviceId: String) = {     
+      val imRequestSender = sender	  
+      val service = Service(serviceId, "info")
+      val info = router ? ServiceInfo(service)
+      info onSuccess {
+        case serviceTimes: ServiceTimes =>
+	  val msg = """{ "service": { "id": """"+serviceTimes.service.id+"""", "timesPerWorker": """+serviceTimes.timesPerWorker.toJson.prettyPrint+""", "completionTime": """+serviceTimes.completionTime.toJson.prettyPrint+"""}}"""
+	  imRequestSender ! HttpResponse(entity = msg)
+        }
+    }
   ////////////// helpers //////////////
 
   lazy val index = HttpResponse(
