@@ -8,7 +8,7 @@ Based on [DistributedWorkers](http://typesafe.com/activator/template/akka-distri
 How to build the project:
 * sbt clean assembly
 
-How to run a local test (agents are run locally):
+How to run a local test on the command line (agents are run locally):
 
 1. Edit src/main/resources/application.conf and change masterHost to be the FQDN or IP of the master host. For example:
 <pre>
@@ -25,3 +25,19 @@ num: number of agents
 $ ./run_test.sh 4
 { "service": { "id": "06f5ab67-0d20-4958-8745-9f277d2fdcf6", "timesPerWorker": [38, 44, 53, 54], "completionTime": 54}}
 </pre>
+
+How to run a local test using the web browser (agents are run locally):
+
+1. Edit src/main/resources/application.conf and change masterHost to be the FQDN or IP of the master host. For example:
+<pre>
+masterHost = "192.168.1.12"
+</pre>
+1. Open new terminal window 
+<pre>
+$ ./run_master.sh
+</pre>
+1. Open as many new terminal windows as you would like agents
+<pre>
+$ ./run_agent.sh
+</pre>
+1. Point your browser to localhost:8090

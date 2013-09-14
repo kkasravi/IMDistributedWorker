@@ -74,9 +74,9 @@ class IMService(router: ActorRef) extends Actor with SprayActorLogging {
       }
     }
 
-  def processAgentServiceRequest(path: String, action: String) = {     
+  def processAgentServiceRequest(path: String, command: String) = {     
       val imRequestSender = sender	  
-      val service = Service(nextWorkId(), action)
+      val service = Service(nextWorkId(), command)
       val future = router ? service
       future onSuccess {
 	     case Router.Ok => {
@@ -106,29 +106,43 @@ class IMService(router: ActorRef) extends Actor with SprayActorLogging {
     entity = HttpEntity(`text/html`,
       <html>
         <body>
-          <h1><i>Akka-spray prototype</i>!</h1>
-    	  <p>Service name: <input id="serviceName" text="serviceName"></input></p>
+    	  <script type="text/javascript">
+            <!--
+            var serviceId;
+            function getServiceId() {
+               var xmlhttp = new XMLHttpRequest();
+               xmlhttp.onreadystatechange=function() {
+                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+                   serviceId=JSON.parse(eval(xmlhttp.responseText)).service.id
+                   setTimeout(getServiceTimes,3000)
+                 }
+               }
+               xmlhttp.open("GET","/start",true);
+               xmlhttp.send();
+            }
+            function getServiceTimes() {
+               var xmlhttp = new XMLHttpRequest();
+               xmlhttp.onreadystatechange=function() {
+                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+                   var completionTime=JSON.parse(xmlhttp.responseText).service.completionTime;
+alert('completionTime='+completionTime)
+                 }
+               }
+               xmlhttp.open("GET","/info?service="+serviceId,true);
+               xmlhttp.send();
+            }
+            -->
+    	  </script>
+          <h1><i>IMDistributedWorkers prototype</i>!</h1>
           <p>Actions:</p>
           <ul>
-            <li><a id="startLink" href="/start">/start</a></li>
-            <li><a id="stopLink" href="/stop">/stop</a></li>
+            <li><a id="startLink" href="#" onclick="getServiceId()">/start</a></li>
             <li><a id="getLink" href="/status">/status</a></li>
             <li><a id="configLink" href="/config">/config</a></li>
             <li><a href="/instantStatus">/instantStatus</a></li>
             <li><a href="/stopIM">/stopIM</a></li>
             <li><a href="/info">/info</a></li>
           </ul>
-    	  <script type="text/javascript">
-       		var startLink= document.getElementById('startLink');
-       		var stopLink= document.getElementById('stopLink');
-       		var getLink= document.getElementById('getLink');
-    		var input= document.getElementById('serviceName');
-    		input.onchange=input.onkeyup= function() {{
-        		startLink.href= startLink.firstChild.data='/start/'+encodeURIComponent(input.value);
-        		stopLink.href= stopLink.firstChild.data='/stop/'+encodeURIComponent(input.value);
-        		getLink.href= getLink.firstChild.data='/status/'+encodeURIComponent(input.value);
-    		}};
-    	  </script>
         </body>
       </html>.toString()
     )
