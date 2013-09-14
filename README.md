@@ -5,10 +5,10 @@ Based on [DistributedWorkers](http://typesafe.com/activator/template/akka-distri
 * Introduces a service concept in addition to a work item
 * Uses Publish, Subscribe to ask a set of workers to execute a service
 
-How to build the project:
+## How to build the project:
 * sbt clean assembly
 
-How to run a local test on the command line (agents are run locally):
+## How to run a local test on the command line (agents are run locally):
 
 1. Edit src/main/resources/application.conf and change masterHost to be the FQDN or IP of the master host. For example:
 <pre>
@@ -26,7 +26,7 @@ $ ./run_test.sh 4
 { "service": { "id": "06f5ab67-0d20-4958-8745-9f277d2fdcf6", "timesPerWorker": [38, 44, 53, 54], "completionTime": 54}}
 </pre>
 
-How to run a local test using the web browser (agents are run locally):
+## How to run a local test using the web browser (agents are run locally):
 
 1. Edit src/main/resources/application.conf and change masterHost to be the FQDN or IP of the master host. For example:
 <pre>
