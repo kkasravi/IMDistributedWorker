@@ -10,6 +10,10 @@ How to build the project:
 
 How to run a local test (agents are run locally):
 
+1. Edit src/main/resources/application.conf and change masterHost to be the FQDN or IP of the master host. For example:
+<pre>
+masterHost = "192.168.1.12"
+</pre>
 1. run_test.sh
 <pre>
 Usage: ./run_test.sh num

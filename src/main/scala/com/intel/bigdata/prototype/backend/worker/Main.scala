@@ -18,8 +18,9 @@ object Main extends Startup {
     val system = ActorSystem(systemName, conf)
     val protocol = Cluster(system).selfAddress.protocol
     val sys = Cluster(system).selfAddress.system
-    val host = Cluster(system).selfAddress.host.get
-    val address = akka.actor.Address(protocol,sys,host,6236)
+    val host:String = conf.getString("masterHost")
+    val port:Int = conf.getInt("masterPort")
+    val address = akka.actor.Address(protocol,sys,host,port)
     Cluster(system).join(address)
     startWorker(address, system)
   }
