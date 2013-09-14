@@ -6,9 +6,9 @@ Based on [DistributedWorkers](http://typesafe.com/activator/template/akka-distri
 * Uses Publish, Subscribe to ask a set of workers to execute a service
 
 How to build the project:
-# sbt clean assembly
+* sbt clean assembly
 
 How to run the project:
-# Bring up several terminal windows
-# In terminal (1) java -cp target/scala-2.10/im-distributed-workers-assembly-0.1.jar com.intel.bigdata.prototype.frontend.server.IMServer
-# In terminal (2...n) java -cp  target/scala-2.10/im-distributed-workers-assembly-0.1.jar com.intel.bigdata.prototype.backend.worker.Main
+1. Bring up several terminal windows
+1. In terminal (1) java -cp target/scala-2.10/im-distributed-workers-assembly-0.1.jar com.intel.bigdata.prototype.frontend.server.IMServer
+1. In terminal (2...n) java -cp  target/scala-2.10/im-distributed-workers-assembly-0.1.jar com.intel.bigdata.prototype.backend.worker.Main
