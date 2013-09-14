@@ -105,6 +105,12 @@ class Master(workTimeout: FiniteDuration) extends Actor with ActorLogging {
           }
       }
 
+    case serviceInfo: ServiceInfo =>
+      log.info("Master serviceInfo call");
+      sender ! ServiceTimes(serviceInfo.service,Seq[Long](0))
+      if (serviceProgress.get(serviceInfo.service.id).get >= workers.size) {
+      }
+
     case WorkFailed(workerId, workId) =>
       workers.get(workerId) match {
         case Some(s @ WorkerState(_, Busy(work, _))) if work.workId == workId =>

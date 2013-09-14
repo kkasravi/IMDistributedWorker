@@ -7,7 +7,7 @@ import akka.contrib.pattern.DistributedPubSubMediator.Send
 import akka.pattern._
 import akka.util.Timeout
 import akka.actor.ActorLogging
-import com.intel.bigdata.prototype.backend.worker.{Work,Service}
+import com.intel.bigdata.prototype.backend.worker.{Work,Service,ServiceInfo,ServiceTimes}
 
 object Router {
   case object Ok
@@ -35,6 +35,14 @@ class Router extends Actor with ActorLogging {
           Ok
       } recover { 
         case _ => NotOk 
+      } pipeTo sender
+
+    case serviceInfo: ServiceInfo =>
+      implicit val timeout = Timeout(5.seconds)
+      (mediator ? Send("/user/master/active", serviceInfo, localAffinity = false)) map {
+        case serviceTimes: ServiceTimes => 
+          log.info("Router ServiceTimes!!!!")
+          serviceTimes
       } pipeTo sender
   }
 

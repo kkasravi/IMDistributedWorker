@@ -16,7 +16,7 @@ import spray.http.StatusCode.int2StatusCode
 import akka.pattern.ask
 import scala.concurrent.Future
 import spray.httpx.marshalling._
-import com.intel.bigdata.prototype.backend.worker.{Work,Service}
+import com.intel.bigdata.prototype.backend.worker.{Work,Service,ServiceInfo,ServiceTimes}
 import com.intel.bigdata.prototype.backend.master.{Router}
 
 
@@ -80,7 +80,14 @@ class IMService(router: ActorRef) extends Actor with SprayActorLogging {
       future onSuccess {
 	     case Router.Ok => {
 	        val msg = "service launched " + service.id
-	        imRequestSender ! HttpResponse(entity = msg)
+                val info = router ? ServiceInfo(service)
+                info onSuccess {
+                  case serviceTimes: ServiceTimes =>
+                    log.info("IMService got ServiceTimes!!!!")
+	            imRequestSender ! HttpResponse(entity = msg)
+                  case _ =>
+                    log.info("IMService got response!!!!")
+                }
 	     } 
 	     case Router.NotOk => {
 	        val msg = "service failed " + service.id
