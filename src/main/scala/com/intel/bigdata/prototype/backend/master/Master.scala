@@ -40,7 +40,7 @@ class Master(workTimeout: FiniteDuration) extends Actor with ActorLogging {
   mediator ! Put(self)
 
   private var workers = Map[String, WorkerState]()
-  private var serviceProgress = Map[String, Integer]()
+  private var serviceProgress = Map[String, ServiceTimes]()
   private var pendingWork = Queue[Work]()
   private var workIds = Set[String]()
 
@@ -96,20 +96,21 @@ class Master(workTimeout: FiniteDuration) extends Actor with ActorLogging {
         case _ =>
           log.info(s"Master State:ServiceIsComplete serviceId=$serviceId workerId=$workerId");
           if (serviceProgress.contains(serviceId)) {
+            val service = serviceProgress.get(serviceId).get.service
+            val delta = System.currentTimeMillis() - service.startTime
+            val times = serviceProgress.get(serviceId).get.times :+ delta
+            serviceProgress += (serviceId -> ServiceTimes(service,times))
             sender ! MasterWorkerProtocol.Ack(serviceId)
-            val count:Integer = serviceProgress.get(serviceId).get + 1
-            serviceProgress += (serviceId -> count)
-            if (serviceProgress.get(serviceId).get >= workers.size) {
-              log.info(s"Master All Workers done!!! serviceId=$serviceId");
-            }
           }
       }
 
     case serviceInfo: ServiceInfo =>
       log.info("Master serviceInfo call");
-      sender ! ServiceTimes(serviceInfo.service,Seq[Long](0))
-      if (serviceProgress.get(serviceInfo.service.id).get >= workers.size) {
-      }
+      val serviceTimes:ServiceTimes = serviceProgress.get(serviceInfo.service.id).get
+      sender ! serviceTimes
+//      if (serviceProgress.get(serviceInfo.service.id).get().times.length >= workers.size) {
+//        sender ! ServiceTimes(serviceInfo.service,Seq[Long](0))
+//      }
 
     case WorkFailed(workerId, workId) =>
       workers.get(workerId) match {
@@ -138,7 +139,7 @@ class Master(workTimeout: FiniteDuration) extends Actor with ActorLogging {
     case service: Service =>
       mediator ! DistributedPubSubMediator.Publish(ServiceTopic, Service(service.id,service.command))
       sender ! Master.Ack(service.id)
-      serviceProgress += (service.id -> 0)
+      serviceProgress += (service.id -> ServiceTimes(service))
       workIds += service.id
 
     case CleanupTick =>

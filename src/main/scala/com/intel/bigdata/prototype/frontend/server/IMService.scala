@@ -110,8 +110,9 @@ class IMService(router: ActorRef) extends Actor with SprayActorLogging {
             <li><a id="stopLink" href="/stop">/stop</a></li>
             <li><a id="getLink" href="/status">/status</a></li>
             <li><a id="configLink" href="/config">/config</a></li>
-    		<li><a href="/instantStatus">/instantStatus</a></li>
+            <li><a href="/instantStatus">/instantStatus</a></li>
             <li><a href="/stopIM">/stopIM</a></li>
+            <li><a href="/info">/info</a></li>
           </ul>
     	  <script type="text/javascript">
        		var startLink= document.getElementById('startLink');
