@@ -42,4 +42,4 @@ $ ./run_master.sh
 <pre>
 $ ./run_agent.sh
 </pre>
-1. Point your browser to localhost:8090
+1. Point your browser to localhost:8090. Click on start or status or config. An alert will display the completionTime.
