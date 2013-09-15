@@ -109,7 +109,7 @@ class IMService(router: ActorRef) extends Actor with SprayActorLogging {
     	  <script type="text/javascript">
             <!--
             var serviceId;
-            function getServiceId() {
+            function getServiceId(command) {
                var xmlhttp = new XMLHttpRequest();
                xmlhttp.onreadystatechange=function() {
                  if (xmlhttp.readyState==4 && xmlhttp.status==200) {
@@ -117,7 +117,7 @@ class IMService(router: ActorRef) extends Actor with SprayActorLogging {
                    setTimeout(getServiceTimes,3000)
                  }
                }
-               xmlhttp.open("GET","/start",true);
+               xmlhttp.open("GET","/"+command,true);
                xmlhttp.send();
             }
             function getServiceTimes() {
@@ -136,12 +136,9 @@ alert('completionTime='+completionTime)
           <h1><i>IMDistributedWorkers prototype</i>!</h1>
           <p>Actions:</p>
           <ul>
-            <li><a id="startLink" href="#" onclick="getServiceId()">/start</a></li>
-            <li><a id="getLink" href="/status">/status</a></li>
-            <li><a id="configLink" href="/config">/config</a></li>
-            <li><a href="/instantStatus">/instantStatus</a></li>
-            <li><a href="/stopIM">/stopIM</a></li>
-            <li><a href="/info">/info</a></li>
+            <li><a id="startLink" href="#" onclick="getServiceId('start')">/start</a></li>
+            <li><a id="getLink" href="#" onclick="getServiceId('status')">/status</a></li>
+            <li><a id="configLink" href="#" onclick="getServiceId('config')">/config</a></li>
           </ul>
         </body>
       </html>.toString()

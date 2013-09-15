@@ -10,6 +10,7 @@ Based on [DistributedWorkers](http://typesafe.com/activator/template/akka-distri
 
 ### How to run a local test on the command line (agents are run locally):
 
+1. Prerequisites: curl and node
 1. Edit src/main/resources/application.conf and change masterHost to be the FQDN or IP of the master host. For example:
 <pre>
 masterHost = "192.168.1.12"
@@ -17,13 +18,14 @@ masterHost = "192.168.1.12"
 1. Now run the command './run_test.sh' to get usage. 
 <pre>
 $ ./run_test.sh
-Usage: ./run_test.sh num
+Usage: ./run_test.sh command num
+command: start|status|config
 num: number of agents
 </pre>
-1. Running run_test.sh with a number of agents will return the time each agent took to run a service and the time when all agents were done reporting their status to the master.
+1. Running run_test.sh with a number of agents will return the time each agent took to run a service (start|config|status) and the time when all agents were done reporting their status to the master.
 <pre>
-$ ./run_test.sh 4
-{ "service": { "id": "06f5ab67-0d20-4958-8745-9f277d2fdcf6", "timesPerWorker": [38, 44, 53, 54], "completionTime": 54}}
+$ ./run_test.sh status 4
+{ "service": { "id": "3949eb18-1c7e-459a-aea2-91c82e807af3", "timesPerWorker": [24, 24, 25, 26], "completionTime": 26}}
 </pre>
 
 ### How to run a local test using the web browser (agents are run locally):
