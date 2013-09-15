@@ -30,6 +30,7 @@ $ ./run_test.sh status 4
 
 ### How to run a local test using the web browser (agents are run locally):
 
+1. Prerequisites: Modern browser like Chrome or Firefox (I used Chrome 29 and Firefox 24)
 1. Edit src/main/resources/application.conf and change masterHost to be the FQDN or IP of the master host. For example:
 <pre>
 masterHost = "192.168.1.12"
