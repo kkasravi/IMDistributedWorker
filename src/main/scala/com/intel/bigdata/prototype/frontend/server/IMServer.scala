@@ -11,17 +11,18 @@ import akka.cluster.Cluster
 import akka.contrib.pattern.ClusterSingletonManager
 import com.intel.bigdata.prototype.backend.master._
 import com.typesafe.config.ConfigFactory
+import com.typesafe.config.Config
 
 object IMServer extends App {
   var router:akka.actor.ActorRef = null
   def systemName = "im"
-  def workTimeout = 10.seconds
-  def startServer() = { 
-    val config: com.typesafe.config.Config = ConfigFactory.load.getConfig("imServer")
-    implicit val system = ActorSystem("imWeb", config)
+  def workTimeout = 30.seconds
+  def startServer(system: akka.actor.ActorSystem, config: Config) = { 
+    val statusAggregator = system.actorOf(Props[StatusAggregator], name = "StatusAggregator")
+
     val handler = system.actorOf(Props(classOf[IMService], router), name = "handler")
     val imPort:Int = config.getInt("imPort")
-    IO(Http) ! Http.Bind(handler, interface = "localhost", port = imPort)
+    IO(Http)(system) ! Http.Bind(handler, interface = "localhost", port = imPort)    
   }
   def startBackend(system: akka.actor.ActorSystem, role: String) = {
     println(Cluster(system).selfAddress)
@@ -35,11 +36,14 @@ object IMServer extends App {
   }
   
   override def main(args: Array[String]) {
-      val conf = ConfigFactory.load.getConfig("imMaster")
-      val system = ActorSystem(systemName, conf)
+      val config = ConfigFactory.load.getConfig("imServer")
+      val system = ActorSystem("im", config)
+      
+//      val conf = ConfigFactory.load.getConfig("imMaster")
+//      val system = ActorSystem(systemName, conf)
       startBackend(system, "backend")
 	  startRouter(system)
-	  startServer()
+	  startServer(system, config)
   }
 
 }

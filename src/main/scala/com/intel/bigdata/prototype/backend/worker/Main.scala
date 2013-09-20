@@ -18,8 +18,11 @@ object Main extends Startup {
     val system = ActorSystem(systemName, conf)
     val protocol = Cluster(system).selfAddress.protocol
     val sys = Cluster(system).selfAddress.system
-    val host:String = conf.getString("masterHost")
-    val port:Int = conf.getInt("masterPort")
+    
+    val masterConf = ConfigFactory.load.getConfig("imServer")
+    val host:String = masterConf.getString("akka.remote.netty.tcp.hostname")
+    val port:Int = masterConf.getInt("akka.remote.netty.tcp.port")
+    
     val address = akka.actor.Address(protocol,sys,host,port)
     Cluster(system).join(address)
     startWorker(address, system)
@@ -30,11 +33,22 @@ object Main extends Startup {
 trait Startup {
 
   def systemName = "im"
-  def workTimeout = 10.seconds
+  def workTimeout = 30.seconds
 
   def startWorker(contactAddress: akka.actor.Address, system: akka.actor.ActorSystem): Unit = {
     val initialContacts = Set(system.actorSelection(RootActorPath(contactAddress) / "user" / "receptionist"))
     val clusterClient = system.actorOf(ClusterClient.props(initialContacts), "clusterClient")
     system.actorOf(Worker.props(clusterClient, Props[WorkExecutor]), "worker")
+    
+    val heartbeatSender = system.actorOf(Props[HeartbeatSender], name="HeartbeatSender")
+
+    //Use system's dispatcher as ExecutionContext
+	import system.dispatcher
+
+  	//This will schedule to send Heartbeat-message every HeartbeatInterval ms
+	val interval = Settings(system).HeartbeatInterval
+	if (interval > 0) {
+		val cancellable = system.scheduler.schedule(0 milliseconds, interval milliseconds, heartbeatSender, Heartbeat)	  
+	}
   }
 }

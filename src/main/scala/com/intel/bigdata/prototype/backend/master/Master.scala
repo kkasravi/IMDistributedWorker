@@ -13,10 +13,12 @@ import scala.concurrent.duration.FiniteDuration
 import akka.actor.Props
 import com.intel.bigdata.prototype.backend.worker._
 
+
 object Master {
 
   val ResultsTopic = "results"
   val ServiceTopic = "service"
+  val AggregatedResultsTopic = "aggregatedResults"
 
   def props(workTimeout: FiniteDuration): Props =
     Props(classOf[Master], workTimeout)
@@ -94,7 +96,8 @@ class Master(workTimeout: FiniteDuration) extends Actor with ActorLogging {
     case ServiceIsComplete(workerId, serviceId, result) =>
       workers.get(serviceId) match {
         case _ =>
-          log.info(s"Master State:ServiceIsComplete serviceId=$serviceId workerId=$workerId");
+          val now = System.currentTimeMillis()
+          log.info(s"Master State:ServiceIsComplete serviceId=$serviceId workerId=$workerId time={}", now)
           if (serviceProgress.contains(serviceId)) {
             val service = serviceProgress.get(serviceId).get.service
             val delta = System.currentTimeMillis() - service.startTime
@@ -111,6 +114,7 @@ class Master(workTimeout: FiniteDuration) extends Actor with ActorLogging {
     case serviceInfo: ServiceInfo =>
       val serviceTimes:ServiceTimes = serviceProgress.get(serviceInfo.service.id).get
       sender ! serviceTimes
+
 
     case WorkFailed(workerId, workId) =>
       workers.get(workerId) match {

@@ -20,7 +20,7 @@ class Router extends Actor with ActorLogging {
   val mediator = DistributedPubSubExtension(context.system).mediator
   def receive = {
     case work: Work =>
-      implicit val timeout = Timeout(5.seconds)
+      implicit val timeout = Timeout(30.seconds)
       (mediator ? Send("/user/master/active", work, localAffinity = false)) map {
         case Master.Ack(_) => 
           Ok
@@ -29,7 +29,7 @@ class Router extends Actor with ActorLogging {
       } pipeTo sender
 
     case service: Service =>
-      implicit val timeout = Timeout(5.seconds)
+      implicit val timeout = Timeout(30.seconds)
       (mediator ? Send("/user/master/active", service, localAffinity = false)) map {
         case Master.Ack(_) => 
           Ok
@@ -38,7 +38,7 @@ class Router extends Actor with ActorLogging {
       } pipeTo sender
 
     case serviceInfo: ServiceInfo =>
-      implicit val timeout = Timeout(5.seconds)
+      implicit val timeout = Timeout(30.seconds)
       (mediator ? Send("/user/master/active", serviceInfo, localAffinity = false)) map {
         case serviceTimes: ServiceTimes => 
           serviceTimes

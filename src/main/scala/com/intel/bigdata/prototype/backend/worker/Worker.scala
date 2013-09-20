@@ -20,7 +20,7 @@ import com.intel.bigdata.prototype.backend.master.{MasterWorkerProtocol,Master}
 
 object Worker {
 
-  def props(clusterClient: ActorRef, workExecutorProps: Props, registerInterval: FiniteDuration = 10.seconds): Props =
+  def props(clusterClient: ActorRef, workExecutorProps: Props, registerInterval: FiniteDuration = 3.seconds): Props =
     Props(classOf[Worker], clusterClient, workExecutorProps, registerInterval)
 
   case class WorkComplete(result: Any)
@@ -32,6 +32,7 @@ class Worker(clusterClient: ActorRef, workExecutorProps: Props, registerInterval
   import Worker._
   import MasterWorkerProtocol._
   import DistributedPubSubMediator.{ Subscribe, SubscribeAck }
+  var timeToWork:Long = 0
 
   val workerId = UUID.randomUUID().toString
 
@@ -73,7 +74,8 @@ class Worker(clusterClient: ActorRef, workExecutorProps: Props, registerInterval
       context.become(working)
 
     case service: Service =>
-      log.info("Got service: {}", service)
+      timeToWork = System.currentTimeMillis()
+      log.info("Got service: {} at {}", service, timeToWork)
       currentWorkId = Some(service.id)
       workExecutor ! service
       context.become(working)
@@ -84,15 +86,17 @@ class Worker(clusterClient: ActorRef, workExecutorProps: Props, registerInterval
 
   def working: Receive = {
     case WorkComplete(result) =>
-      log.info("Work is complete. Result {}.", result)
+      log.info("Work is complete. Result {}", result)
       sendToMaster(WorkIsDone(workerId, workId, result))
-      context.setReceiveTimeout(5.seconds)
+      context.setReceiveTimeout(30.seconds)
       context.become(waitForWorkIsDoneAck(result))
 
     case ServiceComplete(result) =>
-      log.info("Service is complete. Result {}.", result)
+      val now = System.currentTimeMillis()
+      timeToWork = now - timeToWork
+      log.info("Service is complete. Result {}. time={} timeToWork={}", result, now, timeToWork)
       sendToMaster(ServiceIsComplete(workerId, workId, result))
-      context.setReceiveTimeout(5.seconds)
+      context.setReceiveTimeout(30.seconds)
       context.become(waitForWorkIsDoneAck(result))
 
     case _: Work =>

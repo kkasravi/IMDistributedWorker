@@ -16,7 +16,9 @@ libraryDependencies ++= Seq(
   "io.spray" % "spray-can" % "1.2-M8",
   "io.spray" % "spray-routing" % "1.2-M8",
   "io.spray" % "spray-testkit" % "1.2-M8",
-  "io.spray" %%  "spray-json" % "1.2.5"
+  "io.spray" %%  "spray-json" % "1.2.5",
+  "net.liftweb" %% "lift-json" % "2.5.1",
+  "net.liftweb" %% "lift-json-ext" % "2.5.1"  
 )
 
 assemblySettings

@@ -1,0 +1,509 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="yes"?>
+<!DOCTYPE GANGLIA_XML [
+   <!ELEMENT GANGLIA_XML (GRID|CLUSTER|HOST)*>
+      <!ATTLIST GANGLIA_XML VERSION CDATA #REQUIRED>
+      <!ATTLIST GANGLIA_XML SOURCE CDATA #REQUIRED>
+   <!ELEMENT GRID (CLUSTER | GRID | HOSTS | METRICS)*>
+      <!ATTLIST GRID NAME CDATA #REQUIRED>
+      <!ATTLIST GRID AUTHORITY CDATA #REQUIRED>
+      <!ATTLIST GRID LOCALTIME CDATA #IMPLIED>
+   <!ELEMENT CLUSTER (HOST | HOSTS | METRICS)*>
+      <!ATTLIST CLUSTER NAME CDATA #REQUIRED>
+      <!ATTLIST CLUSTER OWNER CDATA #IMPLIED>
+      <!ATTLIST CLUSTER LATLONG CDATA #IMPLIED>
+      <!ATTLIST CLUSTER URL CDATA #IMPLIED>
+      <!ATTLIST CLUSTER LOCALTIME CDATA #REQUIRED>
+   <!ELEMENT HOST (METRIC)*>
+      <!ATTLIST HOST NAME CDATA #REQUIRED>
+      <!ATTLIST HOST IP CDATA #REQUIRED>
+      <!ATTLIST HOST LOCATION CDATA #IMPLIED>
+      <!ATTLIST HOST TAGS CDATA #IMPLIED>
+      <!ATTLIST HOST REPORTED CDATA #REQUIRED>
+      <!ATTLIST HOST TN CDATA #IMPLIED>
+      <!ATTLIST HOST TMAX CDATA #IMPLIED>
+      <!ATTLIST HOST DMAX CDATA #IMPLIED>
+      <!ATTLIST HOST GMOND_STARTED CDATA #IMPLIED>
+   <!ELEMENT METRIC (EXTRA_DATA*)>
+      <!ATTLIST METRIC NAME CDATA #REQUIRED>
+      <!ATTLIST METRIC VAL CDATA #REQUIRED>
+      <!ATTLIST METRIC TYPE (string | int8 | uint8 | int16 | uint16 | int32 | uint32 | float | double | timestamp) #REQUIRED>
+      <!ATTLIST METRIC UNITS CDATA #IMPLIED>
+      <!ATTLIST METRIC TN CDATA #IMPLIED>
+      <!ATTLIST METRIC TMAX CDATA #IMPLIED>
+      <!ATTLIST METRIC DMAX CDATA #IMPLIED>
+      <!ATTLIST METRIC SLOPE (zero | positive | negative | both | unspecified) #IMPLIED>
+      <!ATTLIST METRIC SOURCE (gmond) 'gmond'>
+   <!ELEMENT EXTRA_DATA (EXTRA_ELEMENT*)>
+   <!ELEMENT EXTRA_ELEMENT EMPTY>
+      <!ATTLIST EXTRA_ELEMENT NAME CDATA #REQUIRED>
+      <!ATTLIST EXTRA_ELEMENT VAL CDATA #REQUIRED>
+   <!ELEMENT HOSTS EMPTY>
+      <!ATTLIST HOSTS UP CDATA #REQUIRED>
+      <!ATTLIST HOSTS DOWN CDATA #REQUIRED>
+      <!ATTLIST HOSTS SOURCE (gmond | gmetad) #REQUIRED>
+   <!ELEMENT METRICS (EXTRA_DATA*)>
+      <!ATTLIST METRICS NAME CDATA #REQUIRED>
+      <!ATTLIST METRICS SUM CDATA #REQUIRED>
+      <!ATTLIST METRICS NUM CDATA #REQUIRED>
+      <!ATTLIST METRICS TYPE (string | int8 | uint8 | int16 | uint16 | int32 | uint32 | float | double | timestamp) #REQUIRED>
+      <!ATTLIST METRICS UNITS CDATA #IMPLIED>
+      <!ATTLIST METRICS SLOPE (zero | positive | negative | both | unspecified) #IMPLIED>
+      <!ATTLIST METRICS SOURCE (gmond) 'gmond'>
+]>
+<GANGLIA_XML VERSION="3.3.7" SOURCE="gmond">
+<CLUSTER NAME="/Default" LOCALTIME="1377521122" OWNER="unspecified" LATLONG="unspecified" URL="unspecified">
+<HOST NAME="hadoop1.ovkhasch.com" IP="192.168.56.102" TAGS="" REPORTED="1377521114" TN="8" TMAX="20" DMAX="86400" LOCATION="unspecified" GMOND_STARTED="1374526398">
+<METRIC NAME="diskstat_writes" VAL="489.000000" TYPE="float" UNITS="writes" TN="27" TMAX="60" DMAX="0" SLOPE="both">
+<EXTRA_DATA>
+<EXTRA_ELEMENT NAME="GROUP" VAL="diskstat"/>
+<EXTRA_ELEMENT NAME="DESC" VAL="The number of writes completed"/>
+<EXTRA_ELEMENT NAME="TITLE" VAL="diskstat_writes"/>
+</EXTRA_DATA>
+</METRIC>
+<METRIC NAME="dfs.namenode.AddBlockOps" VAL="18" TYPE="float" UNITS="" TN="7" TMAX="60" DMAX="0" SLOPE="positive">
+<EXTRA_DATA>
+<EXTRA_ELEMENT NAME="GROUP" VAL="dfs.namenode"/>
+</EXTRA_DATA>
+</METRIC>
+<METRIC NAME="dfs.FSNamesystem.MillisSinceLastLoadedEdits" VAL="0" TYPE="float" UNITS="" TN="7" TMAX="60" DMAX="0" SLOPE="both">
+<EXTRA_DATA>
+<EXTRA_ELEMENT NAME="GROUP" VAL="dfs.FSNamesystem"/>
+</EXTRA_DATA>
+</METRIC>
+<METRIC NAME="rpcdetailed.rpcdetailed.FsyncAvgTime" VAL="1.0" TYPE="double" UNITS="" TN="7" TMAX="60" DMAX="0" SLOPE="both">
+<EXTRA_DATA>
+<EXTRA_ELEMENT NAME="GROUP" VAL="rpcdetailed.rpcdetailed"/>
+</EXTRA_DATA>
+</METRIC>
+<METRIC NAME="diskstat_read_time" VAL="0.100554" TYPE="float" UNITS="s" TN="27" TMAX="60" DMAX="0" SLOPE="both">
+<EXTRA_DATA>
+<EXTRA_ELEMENT NAME="GROUP" VAL="diskstat"/>
+<EXTRA_ELEMENT NAME="DESC" VAL="The time in seconds spent reading"/>
+<EXTRA_ELEMENT NAME="TITLE" VAL="diskstat_read_time"/>
+</EXTRA_DATA>
+</METRIC>
+<METRIC NAME="dfs.datanode.SendDataPacketBlockedOnNetworkNanosNumOps" VAL="29" TYPE="float" UNITS="" TN="8" TMAX="60" DMAX="0" SLOPE="positive">
+<EXTRA_DATA>
+<EXTRA_ELEMENT NAME="GROUP" VAL="dfs.datanode"/>
+</EXTRA_DATA>
+</METRIC>
+<METRIC NAME="rpcdetailed.rpcdetailed.SetPermissionNumOps" VAL="18" TYPE="float" UNITS="" TN="7" TMAX="60" DMAX="0" SLOPE="positive">
+<EXTRA_DATA>
+<EXTRA_ELEMENT NAME="GROUP" VAL="rpcdetailed.rpcdetailed"/>
+</EXTRA_DATA>
+</METRIC>
+<METRIC NAME="cpu_num" VAL="3" TYPE="uint16" UNITS="CPUs" TN="2655492" TMAX="1200" DMAX="0" SLOPE="zero">
+<EXTRA_DATA>
+<EXTRA_ELEMENT NAME="GROUP" VAL="cpu"/>
+<EXTRA_ELEMENT NAME="DESC" VAL="Total number of CPUs"/>
+<EXTRA_ELEMENT NAME="TITLE" VAL="CPU Count"/>
+</EXTRA_DATA>
+</METRIC>
+<METRIC NAME="dfs.datanode.FlushNanosNumOps" VAL="52" TYPE="float" UNITS="" TN="8" TMAX="60" DMAX="0" SLOPE="positive">
+<EXTRA_DATA>
+<EXTRA_ELEMENT NAME="GROUP" VAL="dfs.datanode"/>
+</EXTRA_DATA>
+</METRIC>
+<METRIC NAME="dfs.namenode.SyncsAvgTime" VAL="16.25" TYPE="double" UNITS="" TN="7" TMAX="60" DMAX="0" SLOPE="both">
+<EXTRA_DATA>
+<EXTRA_ELEMENT NAME="GROUP" VAL="dfs.namenode"/>
+</EXTRA_DATA>
+</METRIC>
+<METRIC NAME="dfs.FSNamesystem.TransactionsSinceLastCheckpoint" VAL="259" TYPE="float" UNITS="" TN="7" TMAX="60" DMAX="0" SLOPE="both">
+<EXTRA_DATA>
+<EXTRA_ELEMENT NAME="GROUP" VAL="dfs.FSNamesystem"/>
+</EXTRA_DATA>
+</METRIC>
+<METRIC NAME="rpcdetailed.rpcdetailed.FsyncNumOps" VAL="1" TYPE="float" UNITS="" TN="7" TMAX="60" DMAX="0" SLOPE="positive">
+<EXTRA_DATA>
+<EXTRA_ELEMENT NAME="GROUP" VAL="rpcdetailed.rpcdetailed"/>
+</EXTRA_DATA>
+</METRIC>
+<METRIC NAME="dfs.FSNamesystem.StaleDataNodes" VAL="0" TYPE="int32" UNITS="" TN="7" TMAX="60" DMAX="0" SLOPE="both">
+<EXTRA_DATA>
+<EXTRA_ELEMENT NAME="GROUP" VAL="dfs.FSNamesystem"/>
+</EXTRA_DATA>
+</METRIC>
+<METRIC NAME="dfs.datanode.BlocksVerified" VAL="38" TYPE="float" UNITS="" TN="8" TMAX="60" DMAX="0" SLOPE="positive">
+<EXTRA_DATA>
+<EXTRA_ELEMENT NAME="GROUP" VAL="dfs.datanode"/>
+</EXTRA_DATA>
+</METRIC>
+<METRIC NAME="metricssystem.MetricsSystem.Sink_gangliaDropped" VAL="256849" TYPE="int32" UNITS="" TN="7" TMAX="60" DMAX="0" SLOPE="positive">
+<EXTRA_DATA>
+<EXTRA_ELEMENT NAME="GROUP" VAL="metricssystem.MetricsSystem"/>
+</EXTRA_DATA>
+</METRIC>
+<METRIC NAME="dfs.namenode.FilesDeleted" VAL="16" TYPE="float" UNITS="" TN="7" TMAX="60" DMAX="0" SLOPE="positive">
+<EXTRA_DATA>
+<EXTRA_ELEMENT NAME="GROUP" VAL="dfs.namenode"/>
+</EXTRA_DATA>
+</METRIC>
+<METRIC NAME="disk_free" VAL="8.950" TYPE="double" UNITS="GB" TN="178" TMAX="180" DMAX="0" SLOPE="both">
+<EXTRA_DATA>
+<EXTRA_ELEMENT NAME="GROUP" VAL="disk"/>
+<EXTRA_ELEMENT NAME="DESC" VAL="Total free disk space"/>
+<EXTRA_ELEMENT NAME="TITLE" VAL="Disk Space Available"/>
+</EXTRA_DATA>
+</METRIC>
+<METRIC NAME="tx_bytes_lo" VAL="26579.3613" TYPE="float" UNITS="bytes/sec" TN="13" TMAX="60" DMAX="0" SLOPE="both">
+<EXTRA_DATA>
+<EXTRA_ELEMENT NAME="GROUP" VAL="network"/>
+<EXTRA_ELEMENT NAME="DESC" VAL="transmitted bytes per sec"/>
+<EXTRA_ELEMENT NAME="TITLE" VAL="tx_bytes_lo"/>
+</EXTRA_DATA>
+</METRIC>
+<METRIC NAME="jvm.JvmMetrics.ThreadsBlocked" VAL="0" TYPE="int32" UNITS="" TN="7" TMAX="60" DMAX="0" SLOPE="both">
+<EXTRA_DATA>
+<EXTRA_ELEMENT NAME="GROUP" VAL="jvm.JvmMetrics"/>
+</EXTRA_DATA>
+</METRIC>
+<METRIC NAME="resmon.mapred.spill" VAL="0" TYPE="uint32" UNITS="msec" TN="58" TMAX="90" DMAX="0" SLOPE="both">
+<EXTRA_DATA>
+<EXTRA_ELEMENT NAME="GROUP" VAL="Hadoop"/>
+<EXTRA_ELEMENT NAME="DESC" VAL="MapReduce resmon.mapred.spill"/>
+<EXTRA_ELEMENT NAME="TITLE" VAL="resmon.mapred.spill"/>
+</EXTRA_DATA>
+</METRIC>
+<METRIC NAME="tx_drops_virbr0-nic" VAL="0.0000" TYPE="float" UNITS="pkts/sec" TN="13" TMAX="60" DMAX="0" SLOPE="both">
+<EXTRA_DATA>
+<EXTRA_ELEMENT NAME="GROUP" VAL="network"/>
+<EXTRA_ELEMENT NAME="DESC" VAL="transmitted dropped packets per sec"/>
+<EXTRA_ELEMENT NAME="TITLE" VAL="tx_drops_virbr0-nic"/>
+</EXTRA_DATA>
+</METRIC>
+<METRIC NAME="rpcdetailed.rpcdetailed.RegisterDatanodeAvgTime" VAL="19.0" TYPE="double" UNITS="" TN="7" TMAX="60" DMAX="0" SLOPE="both">
+<EXTRA_DATA>
+<EXTRA_ELEMENT NAME="GROUP" VAL="rpcdetailed.rpcdetailed"/>
+</EXTRA_DATA>
+</METRIC>
+<METRIC NAME="udp_outdatagrams" VAL="47.54108" TYPE="float" UNITS="count/s" TN="13" TMAX="60" DMAX="0" SLOPE="both">
+<EXTRA_DATA>
+<EXTRA_ELEMENT NAME="GROUP" VAL="udp"/>
+<EXTRA_ELEMENT NAME="DESC" VAL="outdatagrams"/>
+<EXTRA_ELEMENT NAME="TITLE" VAL="UDP packets out"/>
+</EXTRA_DATA>
+</METRIC>
+<METRIC NAME="mem_mapped" VAL="31858688" TYPE="float" UNITS="Bytes" TN="27" TMAX="60" DMAX="0" SLOPE="both">
+<EXTRA_DATA>
+<EXTRA_ELEMENT NAME="orig_name" VAL="Mapped"/>
+<EXTRA_ELEMENT NAME="GROUP" VAL="memory"/>
+<EXTRA_ELEMENT NAME="DESC" VAL="Mapped"/>
+<EXTRA_ELEMENT NAME="TITLE" VAL="Memory Mapped"/>
+</EXTRA_DATA>
+</METRIC>
+<METRIC NAME="vm_vmeff" VAL="0.0000" TYPE="float" UNITS="pct" TN="27" TMAX="60" DMAX="0" SLOPE="both">
+<EXTRA_DATA>
+<EXTRA_ELEMENT NAME="GROUP" VAL="memory_vm"/>
+<EXTRA_ELEMENT NAME="DESC" VAL="VM efficiency"/>
+<EXTRA_ELEMENT NAME="TITLE" VAL="VM Efficiency"/>
+</EXTRA_DATA>
+</METRIC>
+<METRIC NAME="rpcdetailed.rpcdetailed.SendHeartbeatNumOps" VAL="40590" TYPE="float" UNITS="" TN="7" TMAX="60" DMAX="0" SLOPE="positive">
+<EXTRA_DATA>
+<EXTRA_ELEMENT NAME="GROUP" VAL="rpcdetailed.rpcdetailed"/>
+</EXTRA_DATA>
+</METRIC>
+<METRIC NAME="jvm.JvmMetrics.MemHeapCommittedM" VAL="606.125" TYPE="float" UNITS="" TN="7" TMAX="60" DMAX="0" SLOPE="both">
+<EXTRA_DATA>
+<EXTRA_ELEMENT NAME="GROUP" VAL="jvm.JvmMetrics"/>
+</EXTRA_DATA>
+</METRIC>
+<METRIC NAME="swap_total" VAL="4128760" TYPE="float" UNITS="KB" TN="2655492" TMAX="1200" DMAX="0" SLOPE="zero">
+<EXTRA_DATA>
+<EXTRA_ELEMENT NAME="GROUP" VAL="memory"/>
+<EXTRA_ELEMENT NAME="DESC" VAL="Total amount of swap space displayed in KBs"/>
+<EXTRA_ELEMENT NAME="TITLE" VAL="Swap Space Total"/>
+</EXTRA_DATA>
+</METRIC>
+<METRIC NAME="rx_pkts_virbr0" VAL="0.0000" TYPE="float" UNITS="pkts/sec" TN="13" TMAX="60" DMAX="0" SLOPE="both">
+<EXTRA_DATA>
+<EXTRA_ELEMENT NAME="GROUP" VAL="network"/>
+<EXTRA_ELEMENT NAME="DESC" VAL="received packets per sec"/>
+<EXTRA_ELEMENT NAME="TITLE" VAL="rx_pkts_virbr0"/>
+</EXTRA_DATA>
+</METRIC>
+<METRIC NAME="rpcdetailed.rpcdetailed.SetPermissionAvgTime" VAL="1.3333333333333333" TYPE="double" UNITS="" TN="7" TMAX="60" DMAX="0" SLOPE="both">
+<EXTRA_DATA>
+<EXTRA_ELEMENT NAME="GROUP" VAL="rpcdetailed.rpcdetailed"/>
+</EXTRA_DATA>
+</METRIC>
+<METRIC NAME="dfs.FSNamesystem.LastCheckpointTime" VAL="1374523148000" TYPE="float" UNITS="" TN="7" TMAX="60" DMAX="0" SLOPE="both">
+<EXTRA_DATA>
+<EXTRA_ELEMENT NAME="GROUP" VAL="dfs.FSNamesystem"/>
+</EXTRA_DATA>
+</METRIC>
+<METRIC NAME="dfs.FSNamesystem.CorruptBlocks" VAL="0" TYPE="float" UNITS="" TN="7" TMAX="60" DMAX="0" SLOPE="both">
+<EXTRA_DATA>
+<EXTRA_ELEMENT NAME="GROUP" VAL="dfs.FSNamesystem"/>
+</EXTRA_DATA>
+</METRIC>
+<METRIC NAME="rx_drops_virbr0" VAL="0.0000" TYPE="float" UNITS="pkts/sec" TN="13" TMAX="60" DMAX="0" SLOPE="both">
+<EXTRA_DATA>
+<EXTRA_ELEMENT NAME="GROUP" VAL="network"/>
+<EXTRA_ELEMENT NAME="DESC" VAL="receive packets dropped per sec"/>
+<EXTRA_ELEMENT NAME="TITLE" VAL="rx_drops_virbr0"/>
+</EXTRA_DATA>
+</METRIC>
+<METRIC NAME="metricssystem.MetricsSystem.NumActiveSinks" VAL="1" TYPE="int32" UNITS="" TN="7" TMAX="60" DMAX="0" SLOPE="both">
+<EXTRA_DATA>
+<EXTRA_ELEMENT NAME="GROUP" VAL="metricssystem.MetricsSystem"/>
+</EXTRA_DATA>
+</METRIC>
+<METRIC NAME="dfs.datanode.HeartbeatsAvgTime" VAL="0.6666666666666666" TYPE="double" UNITS="" TN="8" TMAX="60" DMAX="0" SLOPE="both">
+<EXTRA_DATA>
+<EXTRA_ELEMENT NAME="GROUP" VAL="dfs.datanode"/>
+</EXTRA_DATA>
+</METRIC>
+<METRIC NAME="dfs.FSNamesystem.CapacityRemainingGB" VAL="8.0" TYPE="float" UNITS="" TN="7" TMAX="60" DMAX="0" SLOPE="both">
+<EXTRA_DATA>
+<EXTRA_ELEMENT NAME="GROUP" VAL="dfs.FSNamesystem"/>
+</EXTRA_DATA>
+</METRIC>
+<METRIC NAME="dfs.FSNamesystem.LastWrittenTransactionId" VAL="259" TYPE="float" UNITS="" TN="7" TMAX="60" DMAX="0" SLOPE="both">
+<EXTRA_DATA>
+<EXTRA_ELEMENT NAME="GROUP" VAL="dfs.FSNamesystem"/>
+</EXTRA_DATA>
+</METRIC>
+<METRIC NAME="diskstat_io_time" VAL="1.369000" TYPE="float" UNITS="s" TN="27" TMAX="60" DMAX="0" SLOPE="both">
+<EXTRA_DATA>
+<EXTRA_ELEMENT NAME="GROUP" VAL="diskstat"/>
+<EXTRA_ELEMENT NAME="DESC" VAL="The time in seconds spent in I/O operations"/>
+<EXTRA_ELEMENT NAME="TITLE" VAL="diskstat_io_time"/>
+</EXTRA_DATA>
+</METRIC>
+<METRIC NAME="tx_bytes_virbr0-nic" VAL="0.0000" TYPE="float" UNITS="bytes/sec" TN="13" TMAX="60" DMAX="0" SLOPE="both">
+<EXTRA_DATA>
+<EXTRA_ELEMENT NAME="GROUP" VAL="network"/>
+<EXTRA_ELEMENT NAME="DESC" VAL="transmitted bytes per sec"/>
+<EXTRA_ELEMENT NAME="TITLE" VAL="tx_bytes_virbr0-nic"/>
+</EXTRA_DATA>
+</METRIC>
+<METRIC NAME="jvm.JvmMetrics.GcCountPS_Scavenge" VAL="106" TYPE="float" UNITS="" TN="7" TMAX="60" DMAX="0" SLOPE="positive">
+<EXTRA_DATA>
+<EXTRA_ELEMENT NAME="GROUP" VAL="jvm.JvmMetrics"/>
+</EXTRA_DATA>
+</METRIC>
+<METRIC NAME="rpcdetailed.rpcdetailed.GetServerDefaultsNumOps" VAL="12" TYPE="float" UNITS="" TN="7" TMAX="60" DMAX="0" SLOPE="positive">
+<EXTRA_DATA>
+<EXTRA_ELEMENT NAME="GROUP" VAL="rpcdetailed.rpcdetailed"/>
+</EXTRA_DATA>
+</METRIC>
+<METRIC NAME="rpcdetailed.rpcdetailed.VersionRequestNumOps" VAL="1" TYPE="float" UNITS="" TN="7" TMAX="60" DMAX="0" SLOPE="positive">
+<EXTRA_DATA>
+<EXTRA_ELEMENT NAME="GROUP" VAL="rpcdetailed.rpcdetailed"/>
+</EXTRA_DATA>
+</METRIC>
+<METRIC NAME="dfs.FSNamesystem.TotalFiles" VAL="52" TYPE="float" UNITS="" TN="7" TMAX="60" DMAX="0" SLOPE="both">
+<EXTRA_DATA>
+<EXTRA_ELEMENT NAME="GROUP" VAL="dfs.FSNamesystem"/>
+</EXTRA_DATA>
+</METRIC>
+<METRIC NAME="jvm.JvmMetrics.ThreadsRunnable" VAL="7" TYPE="int32" UNITS="" TN="7" TMAX="60" DMAX="0" SLOPE="both">
+<EXTRA_DATA>
+<EXTRA_ELEMENT NAME="GROUP" VAL="jvm.JvmMetrics"/>
+</EXTRA_DATA>
+</METRIC>
+<METRIC NAME="dfs.namenode.SyncsNumOps" VAL="88" TYPE="float" UNITS="" TN="7" TMAX="60" DMAX="0" SLOPE="positive">
+<EXTRA_DATA>
+<EXTRA_ELEMENT NAME="GROUP" VAL="dfs.namenode"/>
+</EXTRA_DATA>
+</METRIC>
+<METRIC NAME="udp_indatagrams" VAL="47.54108" TYPE="float" UNITS="count/s" TN="13" TMAX="60" DMAX="0" SLOPE="both">
+<EXTRA_DATA>
+<EXTRA_ELEMENT NAME="GROUP" VAL="udp"/>
+<EXTRA_ELEMENT NAME="DESC" VAL="indatagrams"/>
+<EXTRA_ELEMENT NAME="TITLE" VAL="UDP packets in"/>
+</EXTRA_DATA>
+</METRIC>
+<METRIC NAME="jvm.JvmMetrics.MemNonHeapUsedM" VAL="38.152756" TYPE="float" UNITS="" TN="7" TMAX="60" DMAX="0" SLOPE="both">
+<EXTRA_DATA>
+<EXTRA_ELEMENT NAME="GROUP" VAL="jvm.JvmMetrics"/>
+</EXTRA_DATA>
+</METRIC>
+<METRIC NAME="rpcdetailed.rpcdetailed.CreateNumOps" VAL="21" TYPE="float" UNITS="" TN="7" TMAX="60" DMAX="0" SLOPE="positive">
+<EXTRA_DATA>
+<EXTRA_ELEMENT NAME="GROUP" VAL="rpcdetailed.rpcdetailed"/>
+</EXTRA_DATA>
+</METRIC>
+<METRIC NAME="mem_shared" VAL="0" TYPE="float" UNITS="KB" TN="38" TMAX="180" DMAX="0" SLOPE="both">
+<EXTRA_DATA>
+<EXTRA_ELEMENT NAME="GROUP" VAL="memory"/>
+<EXTRA_ELEMENT NAME="DESC" VAL="Amount of shared memory"/>
+<EXTRA_ELEMENT NAME="TITLE" VAL="Shared Memory"/>
+</EXTRA_DATA>
+</METRIC>
+<METRIC NAME="proc_total" VAL="995" TYPE="uint32" UNITS=" " TN="38" TMAX="950" DMAX="0" SLOPE="both">
+<EXTRA_DATA>
+<EXTRA_ELEMENT NAME="GROUP" VAL="process"/>
+<EXTRA_ELEMENT NAME="DESC" VAL="Total number of processes"/>
+<EXTRA_ELEMENT NAME="TITLE" VAL="Total Processes"/>
+</EXTRA_DATA>
+</METRIC>
+<METRIC NAME="jvm.JvmMetrics.LogFatal" VAL="0" TYPE="float" UNITS="" TN="7" TMAX="60" DMAX="0" SLOPE="positive">
+<EXTRA_DATA>
+<EXTRA_ELEMENT NAME="GROUP" VAL="jvm.JvmMetrics"/>
+</EXTRA_DATA>
+</METRIC>
+<METRIC NAME="resmon.mapred.memMerge" VAL="0" TYPE="uint32" UNITS="msec" TN="58" TMAX="90" DMAX="0" SLOPE="both">
+<EXTRA_DATA>
+<EXTRA_ELEMENT NAME="GROUP" VAL="Hadoop"/>
+<EXTRA_ELEMENT NAME="DESC" VAL="MapReduce resmon.mapred.memMerge"/>
+<EXTRA_ELEMENT NAME="TITLE" VAL="resmon.mapred.memMerge"/>
+</EXTRA_DATA>
+</METRIC>
+<METRIC NAME="rx_errs_virbr0" VAL="0.0000" TYPE="float" UNITS="pkts/sec" TN="13" TMAX="60" DMAX="0" SLOPE="both">
+<EXTRA_DATA>
+<EXTRA_ELEMENT NAME="GROUP" VAL="network"/>
+<EXTRA_ELEMENT NAME="DESC" VAL="received error packets per sec"/>
+<EXTRA_ELEMENT NAME="TITLE" VAL="rx_errs_virbr0"/>
+</EXTRA_DATA>
+</METRIC>
+<METRIC NAME="pkts_out" VAL="0.22" TYPE="float" UNITS="packets/sec" TN="178" TMAX="300" DMAX="0" SLOPE="both">
+<EXTRA_DATA>
+<EXTRA_ELEMENT NAME="GROUP" VAL="network"/>
+<EXTRA_ELEMENT NAME="DESC" VAL="Packets out per second"/>
+<EXTRA_ELEMENT NAME="TITLE" VAL="Packets Sent"/>
+</EXTRA_DATA>
+</METRIC>
+<METRIC NAME="jvm.JvmMetrics.GcTimeMillisPS_Scavenge" VAL="7012" TYPE="float" UNITS="" TN="7" TMAX="60" DMAX="0" SLOPE="positive">
+<EXTRA_DATA>
+<EXTRA_ELEMENT NAME="GROUP" VAL="jvm.JvmMetrics"/>
+</EXTRA_DATA>
+</METRIC>
+<METRIC NAME="rpcdetailed.rpcdetailed.CreateAvgTime" VAL="54.0" TYPE="double" UNITS="" TN="7" TMAX="60" DMAX="0" SLOPE="both">
+<EXTRA_DATA>
+<EXTRA_ELEMENT NAME="GROUP" VAL="rpcdetailed.rpcdetailed"/>
+</EXTRA_DATA>
+</METRIC>
+<METRIC NAME="dfs.FSNamesystem.CapacityUsedNonDFS" VAL="19078991872" TYPE="float" UNITS="" TN="7" TMAX="60" DMAX="0" SLOPE="both">
+<EXTRA_DATA>
+<EXTRA_ELEMENT NAME="GROUP" VAL="dfs.FSNamesystem"/>
+</EXTRA_DATA>
+</METRIC>
+<METRIC NAME="rx_bytes_eth0" VAL="0.0000" TYPE="float" UNITS="bytes/sec" TN="13" TMAX="60" DMAX="0" SLOPE="both">
+<EXTRA_DATA>
+<EXTRA_ELEMENT NAME="GROUP" VAL="network"/>
+<EXTRA_ELEMENT NAME="DESC" VAL="received bytes per sec"/>
+<EXTRA_ELEMENT NAME="TITLE" VAL="rx_bytes_eth0"/>
+</EXTRA_DATA>
+</METRIC>
+<METRIC NAME="rx_bytes_eth1" VAL="0.0000" TYPE="float" UNITS="bytes/sec" TN="13" TMAX="60" DMAX="0" SLOPE="both">
+<EXTRA_DATA>
+<EXTRA_ELEMENT NAME="GROUP" VAL="network"/>
+<EXTRA_ELEMENT NAME="DESC" VAL="received bytes per sec"/>
+<EXTRA_ELEMENT NAME="TITLE" VAL="rx_bytes_eth1"/>
+</EXTRA_DATA>
+</METRIC>
+<METRIC NAME="rpcdetailed.rpcdetailed.GetBlockLocationsAvgTime" VAL="1.0" TYPE="double" UNITS="" TN="7" TMAX="60" DMAX="0" SLOPE="both">
+<EXTRA_DATA>
+<EXTRA_ELEMENT NAME="GROUP" VAL="rpcdetailed.rpcdetailed"/>
+</EXTRA_DATA>
+</METRIC>
+<METRIC NAME="tx_bytes_virbr0" VAL="0.0000" TYPE="float" UNITS="bytes/sec" TN="13" TMAX="60" DMAX="0" SLOPE="both">
+<EXTRA_DATA>
+<EXTRA_ELEMENT NAME="GROUP" VAL="network"/>
+<EXTRA_ELEMENT NAME="DESC" VAL="transmitted bytes per sec"/>
+<EXTRA_ELEMENT NAME="TITLE" VAL="tx_bytes_virbr0"/>
+</EXTRA_DATA>
+</METRIC>
+<METRIC NAME="rpcdetailed.rpcdetailed.GetDatanodeReportAvgTime" VAL="0.1111111111111111" TYPE="double" UNITS="" TN="7" TMAX="60" DMAX="0" SLOPE="both">
+<EXTRA_DATA>
+<EXTRA_ELEMENT NAME="GROUP" VAL="rpcdetailed.rpcdetailed"/>
+</EXTRA_DATA>
+</METRIC>
+<METRIC NAME="procstat_gmond_cpu" VAL="0.4" TYPE="float" UNITS="percent" TN="27" TMAX="60" DMAX="0" SLOPE="both">
+<EXTRA_DATA>
+<EXTRA_ELEMENT NAME="GROUP" VAL="procstat"/>
+<EXTRA_ELEMENT NAME="DESC" VAL="The total percent CPU utilization"/>
+<EXTRA_ELEMENT NAME="TITLE" VAL="procstat_gmond_cpu"/>
+</EXTRA_DATA>
+</METRIC>
+<METRIC NAME="rpc.rpc.RpcQueueTimeAvgTime" VAL="0.09090909090909093" TYPE="double" UNITS="" TN="7" TMAX="60" DMAX="0" SLOPE="both">
+<EXTRA_DATA>
+<EXTRA_ELEMENT NAME="GROUP" VAL="rpc.rpc"/>
+</EXTRA_DATA>
+</METRIC>
+<METRIC NAME="dfs.FSNamesystem.SnapshottableDirectories" VAL="0" TYPE="float" UNITS="" TN="7" TMAX="60" DMAX="0" SLOPE="both">
+<EXTRA_DATA>
+<EXTRA_ELEMENT NAME="GROUP" VAL="dfs.FSNamesystem"/>
+</EXTRA_DATA>
+</METRIC>
+<METRIC NAME="rpc.rpc.RpcAuthorizationSuccesses" VAL="35637" TYPE="int32" UNITS="" TN="7" TMAX="60" DMAX="0" SLOPE="positive">
+<EXTRA_DATA>
+<EXTRA_ELEMENT NAME="GROUP" VAL="rpc.rpc"/>
+</EXTRA_DATA>
+</METRIC>
+<METRIC NAME="dfs.namenode.FilesRenamed" VAL="10" TYPE="float" UNITS="" TN="7" TMAX="60" DMAX="0" SLOPE="positive">
+<EXTRA_DATA>
+<EXTRA_ELEMENT NAME="GROUP" VAL="dfs.namenode"/>
+</EXTRA_DATA>
+</METRIC>
+<METRIC NAME="tcp_outsegs" VAL="87.86073" TYPE="float" UNITS="count/s" TN="13" TMAX="60" DMAX="0" SLOPE="both">
+<EXTRA_DATA>
+<EXTRA_ELEMENT NAME="GROUP" VAL="tcp"/>
+<EXTRA_ELEMENT NAME="DESC" VAL="outsegs"/>
+<EXTRA_ELEMENT NAME="TITLE" VAL="TCP segments sent"/>
+</EXTRA_DATA>
+</METRIC>
+<METRIC NAME="jvm.JvmMetrics.GcCountPS_MarkSweep" VAL="1" TYPE="float" UNITS="" TN="7" TMAX="60" DMAX="0" SLOPE="positive">
+<EXTRA_DATA>
+<EXTRA_ELEMENT NAME="GROUP" VAL="jvm.JvmMetrics"/>
+</EXTRA_DATA>
+</METRIC>
+<METRIC NAME="dfs.FSNamesystem.CapacityTotalGB" VAL="26.0" TYPE="float" UNITS="" TN="7" TMAX="60" DMAX="0" SLOPE="both">
+<EXTRA_DATA>
+<EXTRA_ELEMENT NAME="GROUP" VAL="dfs.FSNamesystem"/>
+</EXTRA_DATA>
+</METRIC>
+<METRIC NAME="rpcdetailed.rpcdetailed.GetFileInfoAvgTime" VAL="1.0" TYPE="double" UNITS="" TN="7" TMAX="60" DMAX="0" SLOPE="both">
+<EXTRA_DATA>
+<EXTRA_ELEMENT NAME="GROUP" VAL="rpcdetailed.rpcdetailed"/>
+</EXTRA_DATA>
+</METRIC>
+<METRIC NAME="pkts_in" VAL="0.30" TYPE="float" UNITS="packets/sec" TN="178" TMAX="300" DMAX="0" SLOPE="both">
+<EXTRA_DATA>
+<EXTRA_ELEMENT NAME="GROUP" VAL="network"/>
+<EXTRA_ELEMENT NAME="DESC" VAL="Packets in per second"/>
+<EXTRA_ELEMENT NAME="TITLE" VAL="Packets Received"/>
+</EXTRA_DATA>
+</METRIC>
+<METRIC NAME="dfs.namenode.TransactionsNumOps" VAL="153" TYPE="float" UNITS="" TN="7" TMAX="60" DMAX="0" SLOPE="positive">
+<EXTRA_DATA>
+<EXTRA_ELEMENT NAME="GROUP" VAL="dfs.namenode"/>
+</EXTRA_DATA>
+</METRIC>
+<METRIC NAME="diskstat_weighted_io_time" VAL="0.127839" TYPE="float" UNITS="s" TN="27" TMAX="60" DMAX="0" SLOPE="both">
+<EXTRA_DATA>
+<EXTRA_ELEMENT NAME="GROUP" VAL="diskstat"/>
+<EXTRA_ELEMENT NAME="DESC" VAL="The weighted time in seconds spend in I/O operations. This measures each I/O start, I/O completion, I/O merge, or read of these stats by the number of I/O operations in progress times the number of seconds spent doing I/O."/>
+<EXTRA_ELEMENT NAME="TITLE" VAL="diskstat_weighted_io_time"/>
+</EXTRA_DATA>
+</METRIC>
+<METRIC NAME="jvm.JvmMetrics.GcTimeMillisPS_MarkSweep" VAL="89" TYPE="float" UNITS="" TN="7" TMAX="60" DMAX="0" SLOPE="positive">
+<EXTRA_DATA>
+<EXTRA_ELEMENT NAME="GROUP" VAL="jvm.JvmMetrics"/>
+</EXTRA_DATA>
+</METRIC>
+<METRIC NAME="tx_drops_eth0" VAL="0.0000" TYPE="float" UNITS="pkts/sec" TN="13" TMAX="60" DMAX="0" SLOPE="both">
+<EXTRA_DATA>
+<EXTRA_ELEMENT NAME="GROUP" VAL="network"/>
+<EXTRA_ELEMENT NAME="DESC" VAL="transmitted dropped packets per sec"/>
+<EXTRA_ELEMENT NAME="TITLE" VAL="tx_drops_eth0"/>
+</EXTRA_DATA>
+</METRIC>
+<METRIC NAME="dfs.FSNamesystem.Snapshots" VAL="0" TYPE="float" UNITS="" TN="7" TMAX="60" DMAX="0" SLOPE="both">
+<EXTRA_DATA>
+<EXTRA_ELEMENT NAME="GROUP" VAL="dfs.FSNamesystem"/>
+</EXTRA_DATA>
+</METRIC>
+<METRIC NAME="rx_errs_lo" VAL="0.0000" TYPE="float" UNITS="pkts/sec" TN="13" TMAX="60" DMAX="0" SLOPE="both">
+<EXTRA_DATA>
+<EXTRA_ELEMENT NAME="GROUP" VAL="network"/>
+<EXTRA_ELEMENT NAME="DESC" VAL="received error packets per sec"/>
+<EXTRA_ELEMENT NAME="TITLE" VAL="rx_errs_lo"/>
+</EXTRA_DATA>
+</METRIC>
+</HOST>
+</CLUSTER>
+</GANGLIA_XML>
